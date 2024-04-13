@@ -4,49 +4,42 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalandroid.DBHelper;
 import com.example.finalandroid.R;
 import com.example.finalandroid.Recipe;
-import com.example.finalandroid.RecipeAdapter;
-import com.example.finalandroid.databinding.FragmentHomeBinding;
+import com.example.finalandroid.RecipeRecyclerViewAdapter;
 
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
     private RecyclerView recyclerViewRecipes;
     private DBHelper dbHelper;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        recyclerViewRecipes = view.findViewById(R.id.recyclerViewRecipes);
+        dbHelper = new DBHelper(getActivity());
 
-        dbHelper = new DBHelper(requireContext());
+        // Retrieve all recipes from the database
         List<Recipe> recipes = dbHelper.getAllRecipes();
 
-        recyclerViewRecipes = root.findViewById(R.id.recyclerViewRecipes);
-        recyclerViewRecipes.setLayoutManager(new LinearLayoutManager(requireContext()));
-        //RecipeAdapter adapter = new RecipeAdapter(requireContext(), recipes);
-       // recyclerViewRecipes.setAdapter(adapter);
+        // Create a RecyclerView adapter
+//        RecipeRecyclerViewAdapter adapter = new RecipeRecyclerViewAdapter(recipes);
 
-        return root;
-    }
+        // Set the adapter to the RecyclerView
+//        recyclerViewRecipes.setAdapter(adapter);
+        recyclerViewRecipes.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+        return view;
     }
 }

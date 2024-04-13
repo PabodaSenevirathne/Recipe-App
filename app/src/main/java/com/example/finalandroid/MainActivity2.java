@@ -104,7 +104,10 @@ public class MainActivity2 extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.nav_my_recipes) {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main2);
             navController.navigate(R.id.nav_my_recipes);
-        }
+        } else if (id == R.id.nav_home) {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main2);
+        navController.navigate(R.id.nav_home);
+    }
         // Close the navigation drawer after the item is selected
         drawer.closeDrawer(GravityCompat.START);
         return true;
