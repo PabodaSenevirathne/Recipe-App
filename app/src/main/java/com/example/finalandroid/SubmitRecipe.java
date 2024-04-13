@@ -73,10 +73,11 @@ public class SubmitRecipe extends AppCompatActivity {
             public void onClick(View v) {
                 String recipeName = editTextRecipeName.getText().toString().trim();
                 String recipeDescription = editTextRecipeDescription.getText().toString().trim();
+                String userId = getLoggedInUser(); // Get user ID of logged-in user
 
-                if (!recipeName.isEmpty() && !recipeDescription.isEmpty()) {
-                    // Insert recipe into database
-                    boolean success = dbHelper.insertRecipe(recipeName, recipeDescription);
+                if (userId != null && !recipeName.isEmpty() && !recipeDescription.isEmpty()) {
+                    // Insert recipe into database with user ID
+                    boolean success = dbHelper.insertRecipe(userId, recipeName, recipeDescription);
                     if (success) {
                         Toast.makeText(SubmitRecipe.this, "Recipe submitted successfully", Toast.LENGTH_SHORT).show();
                         // Clear EditText fields after submission

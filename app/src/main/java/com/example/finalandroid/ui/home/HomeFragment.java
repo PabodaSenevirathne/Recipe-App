@@ -38,8 +38,8 @@ public class HomeFragment extends Fragment {
 
         recyclerViewRecipes = root.findViewById(R.id.recyclerViewRecipes);
         recyclerViewRecipes.setLayoutManager(new LinearLayoutManager(requireContext()));
-        RecipeAdapter adapter = new RecipeAdapter(requireContext(), recipes);
-        recyclerViewRecipes.setAdapter(adapter);
+        //RecipeAdapter adapter = new RecipeAdapter(requireContext(), recipes);
+       // recyclerViewRecipes.setAdapter(adapter);
 
         return root;
     }

@@ -26,9 +26,9 @@ public class RecipesActivity extends AppCompatActivity {
         List<Recipe> recipes = dbHelper.getAllRecipes();
 
         // Create a custom adapter to display both name and description
-        RecipeAdapter adapter = new RecipeAdapter(this, recipes);
+       // RecipeAdapter adapter = new RecipeAdapter(this, recipes);
 
         // Set the custom adapter to the RecyclerView
-        recyclerViewRecipes.setAdapter(adapter);
+       // recyclerViewRecipes.setAdapter(adapter);
     }
 }

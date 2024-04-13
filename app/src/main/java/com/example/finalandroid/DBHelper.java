@@ -13,7 +13,7 @@ import java.util.List;
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DBNAME = "Final.DB";
-    public static final int DB_VERSION = 2; // Incremented version number
+    public static final int DB_VERSION = 3; // Incremented version number
 
     public DBHelper(Context context) {
         super(context, DBNAME, null, DB_VERSION);
@@ -25,7 +25,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS users(username TEXT PRIMARY KEY, password TEXT)");
 
         // Create table for storing recipes if not exists
-        db.execSQL("CREATE TABLE IF NOT EXISTS recipes(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS recipes(id INTEGER PRIMARY KEY AUTOINCREMENT, user_id TEXT, name TEXT, description TEXT)");
+        //db.execSQL("CREATE TABLE IF NOT EXISTS recipes(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT)");
 
         // Log a message to indicate that the tables are created
         Log.d("DBHelper", "Tables 'users' and 'recipes' created successfully");
@@ -58,9 +59,10 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // Method to insert a new recipe
-    public boolean insertRecipe(String name, String description) {
+    public boolean insertRecipe(String userId, String name, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put("user_id", userId); // Insert user ID
         contentValues.put("name", name);
         contentValues.put("description", description);
         long result = db.insert("recipes", null, contentValues);
@@ -82,5 +84,27 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return recipes;
+    }
+
+    public List<Recipe> getRecipesByUserId(String userId) {
+        List<Recipe> recipes = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM recipes WHERE user_id=?", new String[]{userId});
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndex("id"));
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                String description = cursor.getString(cursor.getColumnIndex("description"));
+                recipes.add(new Recipe(id, name, description));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return recipes;
+    }
+
+    public void deleteRecipe(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("recipes", "id=?", new String[]{String.valueOf(id)});
+        db.close();
     }
 }
