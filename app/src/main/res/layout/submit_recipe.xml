@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+        <!-- Single Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:visibility="visible"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@android:color/white" />
+    <TextView
+        android:id="@+id/textViewRecipeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="24dp"
+        android:text="Recipe Name:"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/editTextRecipeName"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_below="@id/toolbar"/>
+
+    <EditText
+        android:id="@+id/editTextRecipeName"
+        android:layout_width="match_parent"
+        android:layout_below="@id/textViewRecipeName"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Enter recipe name"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRecipeName" />
+
+    <TextView
+        android:id="@+id/textViewRecipeDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="24dp"
+        android:text="Recipe Description:"
+        android:textSize="16sp"
+        android:layout_below="@id/editTextRecipeName"
+        app:layout_constraintStart_toStartOf="@+id/editTextRecipeDescription"
+        app:layout_constraintTop_toBottomOf="@+id/editTextRecipeName" />
+
+    <EditText
+        android:id="@+id/editTextRecipeDescription"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Enter recipe description"
+        android:inputType="textMultiLine"
+        android:layout_below="@id/textViewRecipeDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRecipeDescription" />
+
+        <Button
+            android:id="@+id/btnSubmitRecipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="24dp"
+            android:layout_below="@id/editTextRecipeDescription"
+            />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_below="@id/btnSubmitRecipe" />
+
+    </RelativeLayout>
+
+    <!-- NavigationView for the navigation drawer -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main2"
+        app:menu="@menu/activity_main_drawer" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

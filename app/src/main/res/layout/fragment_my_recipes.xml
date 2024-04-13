@@ -1,0 +1,35 @@
+<!-- fragment_my_recipes.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Recipe List Header -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Recipes"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingBottom="8dp"/>
+
+    <!-- Recipe List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRecipes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
+
+    <!-- Add Recipe Button -->
+    <Button
+        android:id="@+id/buttonAddRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Recipe"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#54B6FF"
+    android:layout_marginBottom="5dp"
+    android:orientation="vertical">
+
+    <!-- Container for Recipe Name with Border -->
+    <LinearLayout
+        android:id="@+id/recipeNameContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/border_bg"
+        android:padding="8dp">
+
+        <!-- Title for Recipe Name -->
+        <TextView
+            android:id="@+id/textViewRecipeNameTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recipe Name:"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Recipe Name -->
+        <TextView
+            android:id="@+id/textViewRecipeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <!-- Container for Recipe Description with Border -->
+    <LinearLayout
+        android:id="@+id/recipeDescriptionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/border_bg"
+        android:padding="8dp"
+        android:layout_marginTop="8dp">
+
+        <!-- Title for Recipe Description -->
+        <TextView
+            android:id="@+id/textViewRecipeDescriptionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recipe Description:"
+            android:textSize="16sp"
+            android:textStyle="italic" />
+
+        <!-- Recipe Description -->
+        <TextView
+            android:id="@+id/textViewRecipeDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
