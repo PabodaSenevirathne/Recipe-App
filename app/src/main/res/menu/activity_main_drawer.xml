@@ -16,6 +16,11 @@
             android:id="@+id/nav_login"
             android:icon="@android:drawable/ic_dialog_info"
             android:title="@string/login" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Logout"
+            android:icon="@android:drawable/ic_dialog_info"
+            android:visible="false" />
 
         <item
             android:id="@+id/nav_my_recipes"

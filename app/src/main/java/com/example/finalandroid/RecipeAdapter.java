@@ -75,4 +75,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         void onEditClick(Recipe recipe);
         void onDeleteClick(Recipe recipe);
     }
+    // Method to update dataset and refresh RecyclerView
+    public void updateData(List<Recipe> updatedRecipes) {
+        mRecipes.clear();
+        mRecipes.addAll(updatedRecipes);
+        notifyDataSetChanged();
+    }
 }

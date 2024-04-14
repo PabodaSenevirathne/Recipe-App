@@ -22,9 +22,7 @@ import com.example.finalandroid.DBHelper;
 import com.example.finalandroid.R;
 import com.example.finalandroid.Recipe;
 import com.example.finalandroid.RecipeAdapter;
-import com.example.finalandroid.RecipeAdapter.OnRecipeClickListener;
 import com.example.finalandroid.SubmitRecipe;
-
 
 import java.util.List;
 
@@ -33,9 +31,11 @@ public class MyRecipesFragment extends Fragment implements RecipeAdapter.OnRecip
     private RecyclerView recyclerView;
     private RecipeAdapter adapter;
     private DBHelper dbHelper;
+    private String loggedInUserId; // Declare loggedInUserId as a member variable
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String LOGGED_IN_USER = "loggedInUser";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,28 +48,30 @@ public class MyRecipesFragment extends Fragment implements RecipeAdapter.OnRecip
 
         // Get the logged-in user's ID
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        String loggedInUserId = sharedPreferences.getString(LOGGED_IN_USER, "");
+        loggedInUserId = sharedPreferences.getString(LOGGED_IN_USER, ""); // Assign value to loggedInUserId
 
-        // Fetch recipes associated with the logged-in user
-        List<Recipe> recipes = dbHelper.getRecipesByUserId(loggedInUserId);
+        if (loggedInUserId.isEmpty()) {
+            // If user is not logged in, disable the button and show a toast
+            buttonAddRecipe.setEnabled(false);
+            showToast("Please login to enter Recipe");
+        } else {
+            // Fetch recipes associated with the logged-in user
+            List<Recipe> recipes = dbHelper.getRecipesByUserId(loggedInUserId);
 
-        // Initialize and set up the RecyclerView
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        //adapter = new RecipeAdapter(requireContext(), recipes);
-        adapter = new RecipeAdapter(requireContext(), recipes, this);
-        recyclerView.setAdapter(adapter);
+            // Initialize and set up the RecyclerView
+            recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+            adapter = new RecipeAdapter(requireContext(), recipes, this);
+            recyclerView.setAdapter(adapter);
 
-        buttonAddRecipe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate to the Add Recipe screen
-                // You can implement this based on your navigation setup
-                // Navigate to the Add Recipe screen
-                Intent intent = new Intent(requireContext(), SubmitRecipe.class);
-                startActivity(intent);
-
-            }
-        });
+            buttonAddRecipe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Navigate to the Add Recipe screen
+                    Intent intent = new Intent(requireContext(), SubmitRecipe.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
         return view;
     }
@@ -90,17 +92,18 @@ public class MyRecipesFragment extends Fragment implements RecipeAdapter.OnRecip
             public void onClick(DialogInterface dialog, int which) {
                 // Call DBHelper method to delete the recipe from the database
                 dbHelper.deleteRecipe(recipe.getId());
-                // Update the RecyclerView after deletion
-                adapter.notifyDataSetChanged();
+                // Update the dataset used by the adapter
+                List<Recipe> updatedRecipes = dbHelper.getRecipesByUserId(loggedInUserId);
+                adapter.updateData(updatedRecipes);
                 showToast("Recipe deleted successfully");
             }
         });
         builder.setNegativeButton("Cancel", null);
         builder.show();
-        // Handle delete action here
-        // For example, show a confirmation dialog and delete the recipe if confirmed
     }
+
     private void showToast(String message) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
+

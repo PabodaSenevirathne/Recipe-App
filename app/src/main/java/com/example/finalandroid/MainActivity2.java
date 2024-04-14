@@ -1,9 +1,14 @@
 package com.example.finalandroid;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +18,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
 import com.example.finalandroid.databinding.ActivityMain2Binding;
 import com.google.android.material.navigation.NavigationView;
 
@@ -22,6 +28,8 @@ public class MainActivity2 extends AppCompatActivity implements NavigationView.O
     private ActivityMain2Binding binding;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private Menu navMenu;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +76,15 @@ public class MainActivity2 extends AppCompatActivity implements NavigationView.O
                 }
             }
         });
+
+        // Get navigation menu
+        navMenu = navigationView.getMenu();
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
+
+        // Update navigation menu based on login status
+        updateNavigationMenu();
     }
 
     @Override
@@ -97,20 +114,60 @@ public class MainActivity2 extends AppCompatActivity implements NavigationView.O
         if (id == R.id.nav_login) {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main2);
             navController.navigate(R.id.nav_slideshow);
+        } else if (id == R.id.nav_logout) {
+            // Logout action
+            clearLoggedInUser();
+            Toast.makeText(this, "You have been logged out!", Toast.LENGTH_SHORT).show();
+            // Redirect to MainActivity
+            Intent intent = new Intent(this, MainActivity2.class);
+            startActivity(intent);
+            finish();
         }
         if (id == R.id.nav_gallery) {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main2);
             navController.navigate(R.id.nav_gallery);
         } else if (id == R.id.nav_my_recipes) {
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main2);
-            navController.navigate(R.id.nav_my_recipes);
+            // Check if user is logged in before navigating to My Recipes
+            String loggedInUserId = sharedPreferences.getString(MainActivity.LOGGED_IN_USER, "");
+            if (!loggedInUserId.isEmpty()) {
+                NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main2);
+                navController.navigate(R.id.nav_my_recipes);
+            } else {
+                // Prompt user to log in
+                // You can show a toast or a dialog here
+            }
         } else if (id == R.id.nav_home) {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main2);
-        navController.navigate(R.id.nav_home);
-    }
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main2);
+            navController.navigate(R.id.nav_home);
+        }
         // Close the navigation drawer after the item is selected
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    private void updateNavigationMenu() {
+        String loggedInUserId = sharedPreferences.getString(MainActivity.LOGGED_IN_USER, "");
+
+        MenuItem loginItem = navMenu.findItem(R.id.nav_login);
+        MenuItem logoutItem = navMenu.findItem(R.id.nav_logout);
+        MenuItem myRecipesItem = navMenu.findItem(R.id.nav_my_recipes);
+
+        if (loggedInUserId.isEmpty()) {
+            // User is not logged in, show the "Login" item and hide the "Logout" item and "My Recipes" item
+            loginItem.setVisible(true);
+            logoutItem.setVisible(false);
+            myRecipesItem.setVisible(false);
+        } else {
+            // User is logged in, hide the "Login" item and show the "Logout" item and "My Recipes" item
+            loginItem.setVisible(false);
+            logoutItem.setVisible(true);
+            myRecipesItem.setVisible(true);
+        }
+    }
+
+    private void clearLoggedInUser() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(MainActivity.LOGGED_IN_USER);
+        editor.apply();
+    }
 }

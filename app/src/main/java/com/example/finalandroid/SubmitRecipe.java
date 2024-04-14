@@ -1,9 +1,5 @@
 package com.example.finalandroid;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -25,6 +28,8 @@ public class SubmitRecipe extends AppCompatActivity {
     Button btnLogout, btnSubmitRecipe;
 
     private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+
     DBHelper dbHelper;
 
     @Override
@@ -61,7 +66,7 @@ public class SubmitRecipe extends AppCompatActivity {
             public void onClick(View v) {
                 clearLoggedInUser();
                 Toast.makeText(SubmitRecipe.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SubmitRecipe.this, LoginActivity.class);
+                Intent intent = new Intent(SubmitRecipe.this, MainActivity2.class);
                 startActivity(intent);
                 finish(); // Finish current activity to prevent going back to it with back button
             }
@@ -89,7 +94,7 @@ public class SubmitRecipe extends AppCompatActivity {
                         Toast.makeText(SubmitRecipe.this, "Failed to submit recipe", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(SubmitRecipe.this,  "Please enter both recipe name and description", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SubmitRecipe.this, "Please enter both recipe name and description", Toast.LENGTH_SHORT).show();
                 }
             }
         });

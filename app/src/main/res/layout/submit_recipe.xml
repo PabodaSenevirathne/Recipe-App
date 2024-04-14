@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
+
         <!-- Single Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -19,7 +20,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:elevation="4dp"
-            android:visibility="visible"
+            android:layout_below="@id/toolbar"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:titleTextColor="@android:color/white" />
@@ -38,7 +39,6 @@
     <EditText
         android:id="@+id/editTextRecipeName"
         android:layout_width="match_parent"
-        android:layout_below="@id/textViewRecipeName"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="3dp"
@@ -47,6 +47,7 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_below="@id/textViewRecipeName"
         app:layout_constraintTop_toBottomOf="@+id/textViewRecipeName" />
 
     <TextView
@@ -95,7 +96,11 @@
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:layout_below="@id/btnSubmitRecipe" />
-
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="184dp"
+            android:layout_below="@id/btnLogout" />
     </RelativeLayout>
 
     <!-- NavigationView for the navigation drawer -->
