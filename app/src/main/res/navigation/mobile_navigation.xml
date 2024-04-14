@@ -27,6 +27,6 @@
     <fragment
         android:id="@+id/nav_my_recipes"
         android:name="com.example.finalandroid.ui.slideshow.MyRecipesFragment"
-        android:label="@string/menu_my_recipes"
+        android:label="My Recipes"
         tools:layout="@layout/fragment_my_recipes" />
 </navigation>
